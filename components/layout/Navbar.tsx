@@ -1,9 +1,10 @@
 "use client";
-
+import WalletStatus from "@/components/web3/WalletStatus";
 import Link from "next/link";
 import { usePrivy } from "@privy-io/react-auth";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { NetworkSelector } from "../web3/NetworkSelector";
 
 export function Navbar() {
   const { authenticated, user } = usePrivy();
@@ -92,6 +93,11 @@ export function Navbar() {
               <span className="text-gray-400 text-xs">No conectado</span>
             )}
           </div>
+          <div className="flex items-center gap-4">
+            <NetworkSelector />
+            <WalletStatus />
+          </div>
+                    
         </div>
       )}
     </nav>

@@ -1,18 +1,4 @@
-/*import { Navbar } from "@/components/layout/Navbar";
-import PrivyLogin from "@/components/auth/PrivyLogin";
 
-export default function HomePage() {
-  return (
-    <main className="min-h-screen">
-      <Navbar />
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-4">Welcome to Ahorro JVN</h1>
-      </div>
-      <PrivyLogin />
-      {/*<Components />
-    </main>
-  );*
-}*/
 "use client";
 
 import { usePrivy, useLogin } from "@privy-io/react-auth";
@@ -41,7 +27,7 @@ export default function LandingPage() {
           onClick={login}
           className="bg-primary hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-semibold transition-all"
         >
-          🚀 Iniciar sesión con Privy
+          Iniciar sesión con Privy
         </button>
       </div>
     </main>
