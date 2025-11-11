@@ -1,51 +1,64 @@
-"use client"; // <-- Muy importante para usar useState y hooks de React
+"use client";
 
 import { useState } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import PrivyLogin from "@/components/auth/PrivyLogin";
 import { CreateFundForm } from "@/components/funds/CreateFundForm";
-import { FundCard } from "@/components/funds/FundCard";
+import { FundType } from "@/types/fund";
+import { FundList } from "@/components/funds/FundList";
 
 export default function HomePage() {
-  // Estado para almacenar los fondos creados
-  const [funds, setFunds] = useState<any[]>([]);
+  const [funds, setFunds] = useState<FundType[]>([]);
 
-  // Callback que recibe los datos del formulario y los agrega al listado de fondos
-  const handleCreateFund = (data: any) => {
+  // Callback que recibe el fondo creado desde CreateFundForm
+  const handleCreateFund = (data: FundType) => {
     setFunds(prev => [...prev, data]);
   };
 
-  // Callback que maneja acciones de cada fondo: depositar, stake, retirar
-  const handleFundAction = (action: "deposit" | "stake" | "withdraw", fund: any) => {
-    console.log(`Acción: ${action}`, fund);
-    alert(`Se simuló la acción "${action}" en el fondo "${fund.name}"`);
-    // Aquí el backend puede recibir fund info y action
+  // Callback que maneja las acciones de deposit, stake y withdraw
+  const handleFundAction = (action: "deposit" | "stake" | "withdraw", fund: FundType, amount: number) => {
+    setFunds(prev =>
+      prev.map(f => {
+        if (f.name === fund.name) {
+          let newBalance = f.balance;
+          let newStaked = f.staked;
+
+          if (action === "deposit") newBalance += amount;
+          if (action === "stake" && amount <= newBalance) {
+            newBalance -= amount;
+            newStaked += amount;
+          }
+          if (action === "withdraw" && amount <= newBalance) {
+            newBalance -= amount;
+          }
+
+          // Aquí puedes llamar al backend con los datos de la acción
+          console.log(`Acción: ${action}, Fondo: ${f.name}, Monto: ${amount}`);
+
+          return { ...f, balance: newBalance, staked: newStaked };
+        }
+        return f;
+      })
+    );
   };
 
   return (
     <main className="min-h-screen bg-darkBg text-white">
-      {/* Barra de navegación */}
       <Navbar />
-
       <div className="container mx-auto px-4 py-8">
-        {/* Título y descripción */}
         <h1 className="text-3xl font-bold mb-4">Welcome to Ahorro JVN</h1>
         <p className="mb-6">Crea y gestiona tus fondos de ahorro fácilmente.</p>
 
-        {/* Formulario para crear un nuevo fondo */}
+        {/* Formulario para crear un fondo */}
         <CreateFundForm onCreate={handleCreateFund} />
 
-        {/* Listado de fondos creados */}
-        {funds.length > 0 && (
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-            {funds.map((f, i) => (
-              <FundCard key={i} {...f} onAction={handleFundAction} />
-            ))}
-          </div>
-        )}
+        {/* Listado de fondos */}
+        <div className="mt-8">
+          <FundList funds={funds} onAction={handleFundAction} />
+        </div>
       </div>
 
-      {/* Componente de login con Privy */}
+      {/* Login con Privy */}
       <PrivyLogin />
     </main>
   );
