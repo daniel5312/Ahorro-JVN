@@ -5,6 +5,7 @@
       "DOM"
     ],
     "baseUrl": "./",
+    "ignoreDeprecations": "6.0",
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,

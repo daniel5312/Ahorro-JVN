@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
-//import "./globals.css";
+import "./globals.css";
 import Providers from "components/Providers"; // importa el provider cliente
 import { Navbar } from "components/layout/Navbar";
 
