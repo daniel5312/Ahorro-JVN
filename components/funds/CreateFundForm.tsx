@@ -76,7 +76,7 @@ export const CreateFundForm = ({ onCreate }: CreateFundFormProps) => {
       </div>
 
       <div>
-        <label>Duración (años, puede ser decimal)</label>
+        <label>Duración (años 5 minimo, puedes usar decimal)</label>
         <input
           type="number"
           step="0.1"
@@ -86,8 +86,8 @@ export const CreateFundForm = ({ onCreate }: CreateFundFormProps) => {
               const val = Number(value);
               if (type === "pension" && val < 5)
                 return "La pensión requiere mínimo 5 años";
-              if (type === "universitario" && val < 3)
-                return "Ahorro universitario requiere mínimo 3 años";
+              if (type === "universitario" && val < 5)
+                return "Ahorro universitario requiere mínimo 5 años";
               return true;
             },
           })}
@@ -102,7 +102,7 @@ export const CreateFundForm = ({ onCreate }: CreateFundFormProps) => {
       </div>
 
       <div>
-        <label>Wallet beneficiaria (hasta 4, separadas por coma o espacio)</label>
+        <label>Wallet beneficiaria (hasta 4, separadas por ",")</label>
         <input
           type="text"
           placeholder="0x..., 0x..., 0x..."
